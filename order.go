@@ -200,7 +200,7 @@ type NoteAttribute struct {
 }
 
 type DiscountAllocation struct {
-	Amount json.Number `json:"amount"`
+	Amount *decimal.Decimal `json:"amount"`
 }
 
 // Represents the result from the orders/X.json endpoint
