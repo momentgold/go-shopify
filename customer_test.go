@@ -296,10 +296,16 @@ func TestCustomerCreateActivationURL(t *testing.T) {
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://fooshop.myshopify.com/%s/customers/1/account_activation_url.json", client.pathPrefix),
 		httpmock.NewStringResponder(200, `{"account_activation_url": "https://fooshop.myshopify.com/account/activate/foo/bar"}`))
 
-	err := client.Customer.CreateActivationURL(1)
+	returnedURL, err := client.Customer.CreateActivationURL(1)
 	if err != nil {
 		t.Errorf("Customer.CreateActivationURL returned error: %v", err)
 	}
+
+	expectedURL := "https://fooshop.myshopify.com/account/activate/foo/bar"
+	if returnedURL != expectedURL {
+		t.Errorf("URL returned %s expected %s", returnedURL, expectedURL)
+	}
+
 }
 
 func TestCustomerListMetafields(t *testing.T) {

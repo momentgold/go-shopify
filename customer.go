@@ -85,7 +85,7 @@ type CustomerSearchOptions struct {
 }
 
 type CustomerActivation struct {
-	URL string `json:"account_activation_url,omitempty"`
+	URL *string `json:"account_activation_url,omitempty"`
 }
 
 // List customers
@@ -135,10 +135,11 @@ func (s *CustomerServiceOp) Delete(customerID int64) error {
 }
 
 // Create an account activation URL for an inactive account
-func (s *CustomerServiceOp) CreateActivationURL(customerID int64) error {
+func (s *CustomerServiceOp) CreateActivationURL(customerID int64) (*string, error) {
 	path := fmt.Sprintf("%s/%d/account_activation_url.json", customersBasePath, customerID)
 	resource := new(CustomerActivation)
-	return s.client.Post(path, nil, resource)
+	err := s.client.Post(path, nil, resource)
+	return resource.URL, err
 }
 
 // Search customers
