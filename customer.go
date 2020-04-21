@@ -21,7 +21,7 @@ type CustomerService interface {
 	Create(Customer) (*Customer, error)
 	Update(Customer) (*Customer, error)
 	Delete(int64) error
-	CreateActivationURL(int64) error
+	CreateActivationURL(int64) (*string, error)
 	ListOrders(int64, interface{}) ([]Order, error)
 	ListTags(interface{}) ([]string, error)
 

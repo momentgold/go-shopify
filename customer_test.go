@@ -302,8 +302,8 @@ func TestCustomerCreateActivationURL(t *testing.T) {
 	}
 
 	expectedURL := "https://fooshop.myshopify.com/account/activate/foo/bar"
-	if returnedURL != expectedURL {
-		t.Errorf("URL returned %s expected %s", returnedURL, expectedURL)
+	if *returnedURL != expectedURL {
+		t.Errorf("URL returned %s expected %s", *returnedURL, expectedURL)
 	}
 
 }
