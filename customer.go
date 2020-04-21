@@ -21,6 +21,7 @@ type CustomerService interface {
 	Create(Customer) (*Customer, error)
 	Update(Customer) (*Customer, error)
 	Delete(int64) error
+	CreateActivationURL(int64) error
 	ListOrders(int64, interface{}) ([]Order, error)
 	ListTags(interface{}) ([]string, error)
 
@@ -83,6 +84,10 @@ type CustomerSearchOptions struct {
 	Query  string `url:"query,omitempty"`
 }
 
+type CustomerActivation struct {
+	URL string `json:"account_activation_url,omitempty"`
+}
+
 // List customers
 func (s *CustomerServiceOp) List(options interface{}) ([]Customer, error) {
 	path := fmt.Sprintf("%s.json", customersBasePath)
@@ -127,6 +132,13 @@ func (s *CustomerServiceOp) Update(customer Customer) (*Customer, error) {
 func (s *CustomerServiceOp) Delete(customerID int64) error {
 	path := fmt.Sprintf("%s/%d.json", customersBasePath, customerID)
 	return s.client.Delete(path)
+}
+
+// Create an account activation URL for an inactive account
+func (s *CustomerServiceOp) CreateActivationURL(customerID int64) error {
+	path := fmt.Sprintf("%s/%d/account_activation_url.json", customersBasePath, customerID)
+	resource := new(CustomerActivation)
+	return s.client.Post(path, nil, resource)
 }
 
 // Search customers
